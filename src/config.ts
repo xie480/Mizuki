@@ -181,7 +181,6 @@ export const siteConfig: SiteConfig = {
             title: "夢の終着駅", // 主页横幅主标题
             subtitle: [
                 "あなたは翼を持っているから、高く飛び立たなければならない",
-                "桜のように散る運命だとしても、せめて美しく咲き誇れ",
                 "偽物でもいい、そこに込められた想いが本物であるなら",
                 "たとえ明日、この世界が終わるとしても",
                 "見上げれば同じ空の下、距離なんて、本当は関係ないんだ",
@@ -344,7 +343,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "Yilena",
-	bio: "希望能成为一只哈基米，可以整天自由自在地哈气",
+	bio: "桜のように散る運命だとしても、せめて美しく咲き誇れ",
 	typewriter: {
 		enable: true, // 启用个人简介打字机效果
 		speed: 80, // 打字速度（毫秒）
