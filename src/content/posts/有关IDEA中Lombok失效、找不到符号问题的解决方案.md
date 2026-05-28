@@ -12,7 +12,6 @@ licenseName: "CC BY 4.0"
 sourceLink: "https://blog.csdn.net/2401_88959292/article/details/145309799?spm=1001.2014.3001.5501"
 draft: false
 image: ""
-permalink: "encrypted-example"
 ---
 
 我在使用时发现Lombok失效，很多相关无法使用

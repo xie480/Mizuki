@@ -12,7 +12,6 @@ licenseName: "CC BY 4.0"
 sourceLink: "https://blog.csdn.net/2401_88959292/article/details/150618375?spm=1001.2014.3001.5501"
 draft: false
 image: "https://i-blog.csdnimg.cn/direct/3679fa348f1a4b94b7a6961bbcd69aad.png"
-permalink: "encrypted-example"
 ---
 
 ## 一、业务场景

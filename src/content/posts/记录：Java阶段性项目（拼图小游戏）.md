@@ -12,7 +12,6 @@ licenseName: "CC BY 4.0"
 sourceLink: "https://blog.csdn.net/2401_88959292/article/details/144153828?spm=1001.2014.3001.5501"
 draft: false
 image: "https://i-blog.csdnimg.cn/direct/7fcf9ed5984c4f29b11f2c5b451e0440.jpeg"
-permalink: "encrypted-example"
 ---
 
 ---

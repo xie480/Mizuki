@@ -12,7 +12,6 @@ licenseName: "CC BY 4.0"
 sourceLink: "https://blog.csdn.net/2401_88959292/article/details/148366254?spm=1001.2014.3001.5501"
 draft: false
 image: "https://i-blog.csdnimg.cn/direct/36edb66aba674133af1b87d807df7588.png"
-permalink: "encrypted-example"
 ---
 
 我在使-进行分库分表的时候遇到了这样一个问题：

@@ -12,7 +12,6 @@ licenseName: "CC BY 4.0"
 sourceLink: "https://blog.csdn.net/2401_88959292/article/details/159584975?spm=1001.2014.3001.5501"
 draft: false
 image: "https://i-blog.csdnimg.cn/direct/c8addd51ef6c4fe8a2b1934ec5eea646.png"
-permalink: "encrypted-example"
 ---
 
 ## 一、 为什么变得重要
