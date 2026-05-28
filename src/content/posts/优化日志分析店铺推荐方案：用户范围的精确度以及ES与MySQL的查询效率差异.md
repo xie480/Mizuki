@@ -165,7 +165,7 @@ permalink: "encrypted-example"
  
 
 
-```Lua
+```lua
 -- 用户ID
 local uid = ARGV[1]
 -- 当前月份 格式 "YYYY:MM"

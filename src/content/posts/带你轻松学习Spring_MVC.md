@@ -491,7 +491,7 @@ Spring提供了DefaultHandlerExceptionResolver的默认实现类，会将异常�
  
 
 
-```XML
+```xml
 <servlet>
   <servlet-name>app</servlet-name>
   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

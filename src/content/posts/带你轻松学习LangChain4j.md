@@ -464,7 +464,7 @@ LangChain4j 非常强调接口抽象。
  
 
 
-```Matlab
+```matlab
 model.generate("你好");
 ```
  

@@ -1093,7 +1093,7 @@ AQS 是构建 Java 并发锁和同步器的基础框架，通过 FIFO 队列管�
 
 - 非公平锁直接使用CAS修改state，成功则抢到锁或重入，否则进入队列等待。
 
-```Matlab
+```matlab
 if (compareAndSetState(0, 1))  // CAS直接抢锁
     setExclusiveOwnerThread(Thread.currentThread());
 else
@@ -1102,7 +1102,7 @@ else
 
 - 公平锁先检查队列，如果没有节点就抢锁，否则就进入队列等待，保证队列顺序绝对一致。
 
-```Matlab
+```matlab
 protected boolean tryAcquire(int acquires) {
     if (getState() == 0) {
         if (!hasQueuedPredecessors() &&  // 关键：检查队列是否有等待线程
@@ -1139,7 +1139,7 @@ protected boolean tryAcquire(int acquires) {
   - 若队列已初始化，CAS插入队尾。
   - 若队列未初始化，调用`enq()`自旋初始化队列并插入：
 
-```Matlab
+```matlab
     for (;;) {
         Node t = tail;
         if (t == null) {  // 初始化头节点（哨兵节点）
@@ -1162,7 +1162,7 @@ protected boolean tryAcquire(int acquires) {
  
 
 
-```Matlab
+```matlab
 for (;;) {
     Node p = node.predecessor();
     if (p == head && tryAcquire(arg)) {  // 前驱为头节点且抢锁成功
@@ -1194,7 +1194,7 @@ for (;;) {
  
 
 
-```Matlab
+```matlab
     Node s = node.next;
     if (s != null && s.waitStatus <= 0)
         LockSupport.unpark(s.thread);  // 唤醒后继节点

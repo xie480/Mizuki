@@ -544,7 +544,7 @@ Spring在创建Bean时，可以决定这个Bean的范围，这个范围也就是
  
 
 
-```XML
+```xml
 <bean id="userService" class="com.example.UserService"/>
 ```
  
@@ -562,7 +562,7 @@ Spring在创建Bean时，可以决定这个Bean的范围，这个范围也就是
  
 
 
-```XML
+```xml
 <bean id="userService" class="com.example.UserService" factory-method="createUserService"/>
 ```
  
@@ -576,7 +576,7 @@ Spring在创建Bean时，可以决定这个Bean的范围，这个范围也就是
  
 
 
-```XML
+```xml
 <bean id="serviceFactory" class="com.example.ServiceFactory"/>
 <bean id="userService" factory-bean="serviceFactory" factory-method="createUserService"/>
 ```
@@ -610,7 +610,7 @@ public class MyFactoryBean implements FactoryBean<UserService> {
  
 
 
-```XML
+```xml
 <bean id="userService" class="com.example.MyFactoryBean"/>
 ```
  

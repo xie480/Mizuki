@@ -199,7 +199,7 @@ public interface UserMapper {
  
 
 
-```XML
+```xml
 <mapper namespace="com.example.mapper.UserMapper">
   <select id="selectById" parameterType="long" resultType="com.example.model.User">
     SELECT id, username, email FROM users WHERE id = #{id}
@@ -251,7 +251,7 @@ ResultType只适合简单唯一的对象。但是当列名和对象字段名不�
  
 
 
-```XML
+```xml
 <resultMap id="UserResultMap" type="com.example.model.User">
   <id column="id" property="id"/>
   <result column="username" property="username"/>

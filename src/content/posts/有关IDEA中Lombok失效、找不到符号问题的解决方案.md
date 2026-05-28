@@ -55,7 +55,7 @@ ps：在指定完版本后记得刷新，并运行一下自带的clean和complie
 
 
 
-```XML
+```xml
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -67,7 +67,7 @@ ps：在指定完版本后记得刷新，并运行一下自带的clean和complie
 
 
 
-```XML
+```xml
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -86,7 +86,7 @@ ps：在指定完版本后记得刷新，并运行一下自带的clean和complie
 
 
 
-```XML
+```xml
               <configuration>
                     <excludes>
                         <exclude>
@@ -121,7 +121,7 @@ ps：在指定完版本后记得刷新，并运行一下自带的clean和complie
 
 
 
-```XML
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -170,7 +170,7 @@ ps：在指定完版本后记得刷新，并运行一下自带的clean和complie
 
 
 
-```XML
+```xml
 <build>
         <pluginManagement>
             <plugins>
