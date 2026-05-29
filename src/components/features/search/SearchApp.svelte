@@ -39,26 +39,26 @@
 		error = null;
 
 		try {
-			let response;
+			let response = null;
+
+			// 不论 DEV/PROD，只要 Pagefind 已加载就使用真实搜索
 			if (
-				import.meta.env.PROD &&
 				pagefindLoaded &&
 				typeof window.pagefind?.search === "function"
 			) {
 				response = await fetchSearchResults(keyword);
-			} else if (import.meta.env.DEV) {
-				// 开发环境使用空结果
-				await new Promise((r) => setTimeout(r, 500));
-				response = {
-					code: 200,
-					message: "dev_mode",
-					data: {
-						keyword,
-						summary: { total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 },
-						results: { posts: [], projects: [], moments: [] },
-					},
-				};
-			} else {
+			} else if (typeof window.loadPagefind === "function") {
+				// 尝试动态加载 Pagefind
+				await window.loadPagefind();
+				pagefindLoaded =
+					!!window.pagefind && typeof window.pagefind.search === "function";
+				if (pagefindLoaded) {
+					response = await fetchSearchResults(keyword);
+				}
+			}
+
+			// 后备：Pagefind 不可用时返回空
+			if (!response) {
 				response = {
 					code: 200,
 					message: "pagefind_unavailable",
