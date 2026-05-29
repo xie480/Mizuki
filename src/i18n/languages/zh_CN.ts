@@ -14,7 +14,7 @@ export const zh_CN: Translation = {
 	[Key.navAbout]: "其他",
 	[Key.navOthers]: "其他",
 
-	[Key.tags]: "标签",
+	[Key.tags]: "文章标签",
 	[Key.categories]: "分类",
 	[Key.recentPosts]: "最新文章",
 	[Key.postList]: "文章列表",
@@ -58,7 +58,7 @@ export const zh_CN: Translation = {
 	[Key.publishedAt]: "发布于",
 	[Key.license]: "许可协议",
 	[Key.anime]: "追番",
-	[Key.diary]: "日记",
+	[Key.diary]: "动态",
 
 	// 番剧页面
 	[Key.animeTitle]: "我的追番记录",
@@ -82,10 +82,10 @@ export const zh_CN: Translation = {
 
 	// 短文页面
 	[Key.diarySubtitle]: "随时随地，分享生活",
-	[Key.diaryNoResults]: "没有匹配的日记",
-	[Key.diaryCount]: "条日记",
+	[Key.diaryNoResults]: "没有匹配的动态",
+	[Key.diaryCount]: "条动态",
 
-	[Key.diaryTips]: "只展示最近30条日记",
+	[Key.diaryTips]: "只展示最近30条动态",
 	[Key.diaryMinutesAgo]: "分钟前",
 	[Key.diaryHoursAgo]: "小时前",
 	[Key.diaryDaysAgo]: "天前",
@@ -202,6 +202,7 @@ export const zh_CN: Translation = {
 	[Key.timelineLocation]: "地点",
 	[Key.timelineDescription]: "详细描述",
 	[Key.timelineMonths]: "个月",
+	[Key.timelineDays]: "天",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "总计",
 	[Key.timelineProjects]: "项目数",

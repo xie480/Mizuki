@@ -2,6 +2,7 @@
 import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
 import type { TimelineCardProps } from "./types";
+import { calculateDuration, formatDuration } from "../../../data/timeline";
 
 const { item } = Astro.props as TimelineCardProps;
 
@@ -59,20 +60,12 @@ const formatDate = (dateString: string) => {
 };
 
 const getDuration = (startDate: string, endDate?: string) => {
-	const start = new Date(startDate);
-	const end = endDate ? new Date(endDate) : new Date();
-	const diffTime = Math.abs(end.getTime() - start.getTime());
-	const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
-
-	if (diffMonths < 12) {
-		return `${diffMonths} ${i18n(I18nKey.timelineMonths)}`;
-	}
-	const years = Math.floor(diffMonths / 12);
-	const months = diffMonths % 12;
-	if (months === 0) {
-		return `${years} ${i18n(I18nKey.timelineYears)}`;
-	}
-	return `${years} ${i18n(I18nKey.timelineYears)} ${months} ${i18n(I18nKey.timelineMonths)}`;
+	const duration = calculateDuration(startDate, endDate);
+	return formatDuration(duration, {
+		year: i18n(I18nKey.timelineYears),
+		month: i18n(I18nKey.timelineMonths),
+		day: i18n(I18nKey.timelineDays),
+	});
 };
 
 const icon = item.icon || getTypeIcon(item.type);

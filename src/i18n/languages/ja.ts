@@ -14,7 +14,7 @@ export const ja: Translation = {
 	[Key.navAbout]: "情報",
 	[Key.navOthers]: "その他",
 
-	[Key.tags]: "タグ",
+	[Key.tags]: "記事タグ",
 	[Key.categories]: "カテゴリー",
 	[Key.recentPosts]: "最近の投稿",
 	[Key.postList]: "投稿の一覧",
@@ -58,7 +58,7 @@ export const ja: Translation = {
 	[Key.publishedAt]: "公開日",
 	[Key.license]: "ライセンス",
 	[Key.anime]: "視聴したアニメ",
-	[Key.diary]: "日記",
+	[Key.diary]: "動的",
 
 	// アニメページ
 	[Key.animeTitle]: "視聴したアニメ",
@@ -85,10 +85,10 @@ export const ja: Translation = {
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでも、どこでも生活を共有",
-	[Key.diaryNoResults]: "一致する日記がありません",
-	[Key.diaryCount]: "件の日記",
+	[Key.diaryNoResults]: "一致する動的がありません",
+	[Key.diaryCount]: "件の動的",
 
-	[Key.diaryTips]: "最新の30件の日記のエントリーのみを表示",
+	[Key.diaryTips]: "最新の30件の動的のみを表示",
 	[Key.diaryMinutesAgo]: "分前",
 	[Key.diaryHoursAgo]: "時間前",
 	[Key.diaryDaysAgo]: "日前",
@@ -259,6 +259,7 @@ export const ja: Translation = {
 	[Key.timelineLocation]: "場所",
 	[Key.timelineDescription]: "詳細な説明",
 	[Key.timelineMonths]: "ヶ月",
+	[Key.timelineDays]: "日",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "合計",
 	[Key.timelineProjects]: "プロジェクト",
@@ -370,9 +371,9 @@ export const ja: Translation = {
 	// 多次元検索
 	[Key.searchResults]: "検索結果",
 	[Key.searchAll]: "すべて",
-	[Key.searchPosts]: "記事",
+	[Key.searchPosts]: "投稿",
 	[Key.searchProjects]: "プロジェクト",
-	[Key.searchMoments]: "ダイナミクス",
+	[Key.searchMoments]: "動的",
 	[Key.searchNoResults]: "結果が見つかりませんでした",
 	[Key.searchNoResultsHint]:
 		"{keyword} に一致する結果が見つかりませんでした。キーワードの確認、より一般的なキーワードの使用、または別のカテゴリをお試しください。",

@@ -1,7 +1,124 @@
 import type { TimelineItem } from "../components/features/timeline/types";
 
+/**
+ * 高精度日期差计算结果
+ */
+export interface DurationResult {
+	years: number;
+	months: number;
+	days: number;
+}
+
+/**
+ * 基于实际日历天数的高精度日期差计算
+ * 严格处理大小月与闰年，计算开始日期与结束日期之间的真实差值
+ *
+ * 算法说明：
+ * 1. 先计算年、月、日的原始差值
+ * 2. 若 days < 0，则从月份中连续借位（以实际日历天数为准），直至 days ≥ 0
+ * 3. 若 months < 0，则从年份中借位
+ *
+ * 边界情况处理：
+ * - 无效日期：返回零值
+ * - start > end：返回零值
+ * - 大小月/闰年：通过 Date(yr, mon, 0) 获取上月实际天数
+ * - 跨月极值（如 1月31日 → 3月1日闰年）：通过级联借位处理
+ */
+export function calculateDuration(startDate: string, endDate?: string): DurationResult {
+	const start = new Date(startDate);
+	const end = endDate ? new Date(endDate) : new Date();
+
+	// 处理无效日期
+	if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+		return { years: 0, months: 0, days: 0 };
+	}
+
+	// 确保开始日期不晚于结束日期
+	if (start > end) {
+		return { years: 0, months: 0, days: 0 };
+	}
+
+	let years = end.getFullYear() - start.getFullYear();
+	let months = end.getMonth() - start.getMonth();
+	let days = end.getDate() - start.getDate();
+
+	// 级联借位：持续从月份中借天数，直到 days 为非负数
+	// 处理场景：如 1月31日 → 3月1日（闰年），借2月(29天)后仍为 -1，需继续借1月(31天)
+	let borrowOffset = 0;
+	while (days < 0) {
+		months--;
+		borrowOffset++;
+		// 获取 end 向前 borrowOffset 个月的那个月的实际天数
+		const prevMonthDate = new Date(
+			end.getFullYear(),
+			end.getMonth() - borrowOffset + 1,
+			0
+		);
+		days += prevMonthDate.getDate();
+	}
+
+	// 月份借位：若 months 为负数，则从年份中借位
+	while (months < 0) {
+		years--;
+		months += 12;
+	}
+
+	return { years, months, days };
+}
+
+/**
+ * 将 DurationResult 格式化为中文化字符串
+ * 自动过滤计算结果中数值为0的时间单位
+ *
+ * 规则：
+ * - 总时长 < 1个月 → "X天"
+ * - 1个月 ≤ 总时长 < 1年 → "X个月Y天"
+ * - 总时长 ≥ 1年 → "X年Y个月Z天"
+ * - 同一天（开始=结束）→ "1天"
+ */
+export function formatDuration(
+	duration: DurationResult,
+	labels: { year: string; month: string; day: string }
+): string {
+	let { years, months, days } = duration;
+
+	// 同一天：开始与结束为同一日期，显示为 1 天
+	if (years === 0 && months === 0 && days === 0) {
+		days = 1;
+	}
+
+	const parts: string[] = [];
+
+	if (years > 0) {
+		parts.push(`${years}${labels.year}`);
+	}
+	if (months > 0) {
+		parts.push(`${months}${labels.month}`);
+	}
+	if (days > 0 || (years === 0 && months === 0)) {
+		// 总时长小于1个月时，仅显示天数
+		days = Math.max(days, 0);
+		parts.push(`${days}${labels.day}`);
+	}
+
+	return parts.join("");
+}
+
 export const timelineData: TimelineItem[] = [
-	
+	{
+		id: "16",
+		title: "个人小站搭建",
+		description:
+			"将自己大学两年间的足迹汇总于此",
+		type: "project",
+		startDate: "2026-05-29",
+		endDate: "2026-05-30",
+		achievements: [
+			"夢の終着駅 · 扬帆起航"
+		],
+		icon: "material-symbols:code",
+		color: "#EA580C"
+	},
 	{
 		id: "15",
 		title: "Luna",
@@ -9,7 +126,6 @@ export const timelineData: TimelineItem[] = [
 			"使用Python + Golang对此前的Luna项目进行重构，仍在进行中……",
 		type: "project",
 		startDate: "2026-05-01",
-		endDate: "2026-05-15",
 		achievements: [
 			"系统学习了Agent技术栈之后，重拾旧梦"
 		],
@@ -68,7 +184,7 @@ export const timelineData: TimelineItem[] = [
 			"在Agent开发场景下，Java优势并不明显，于是花了两周系统学习Python + FastAPI和Golang + Gin",
 		type: "education",
 		startDate: "2026-05-01",
-		endDate: "2026-05-28",
+		endDate: "2026-05-14",
 		skills: ["Python", "FastAPI", "Golang", "Gin"],
 		location: "中国，广州",
 		icon: "material-symbols:lightbulb",

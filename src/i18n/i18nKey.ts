@@ -207,6 +207,7 @@ enum I18nKey {
 	timelineAchievements = "timelineAchievements",
 	timelineStartDate = "timelineStartDate",
 	timelineDuration = "timelineDuration",
+	timelineDays = "timelineDays",
 
 	// 密码保护
 	passwordProtected = "passwordProtected",

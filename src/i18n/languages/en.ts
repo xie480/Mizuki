@@ -14,7 +14,7 @@ export const en: Translation = {
 	[Key.navAbout]: "About",
 	[Key.navOthers]: "Others",
 
-	[Key.tags]: "Tags",
+	[Key.tags]: "Post Tags",
 	[Key.categories]: "Categories",
 	[Key.recentPosts]: "Recent Posts",
 	[Key.postList]: "Post List",
@@ -34,7 +34,7 @@ export const en: Translation = {
 	[Key.friendsVisit]: "Visit",
 	[Key.friendsCopyLink]: "Copy Link",
 	[Key.friendsCopySuccess]: "Copied",
-	[Key.friendsTags]: "Tags",
+	[Key.friendsTags]: "Post Tags",
 	[Key.untitled]: "Untitled",
 	[Key.uncategorized]: "Uncategorized",
 	[Key.noTags]: "No Tags",
@@ -58,7 +58,7 @@ export const en: Translation = {
 	[Key.publishedAt]: "Published at",
 	[Key.license]: "License",
 	[Key.anime]: "Anime",
-	[Key.diary]: "Diary",
+	[Key.diary]: "Moments",
 
 	// Anime Page
 	[Key.animeTitle]: "My Anime List",
@@ -257,6 +257,7 @@ export const en: Translation = {
 	[Key.timelineLocation]: "Location",
 	[Key.timelineDescription]: "Detailed Description",
 	[Key.timelineMonths]: "months",
+	[Key.timelineDays]: "days",
 	[Key.timelineYears]: "years",
 	[Key.timelineTotal]: "Total",
 	[Key.timelineProjects]: "Projects",
@@ -305,7 +306,7 @@ export const en: Translation = {
 	[Key.siteStats]: "Site Statistics",
 	[Key.siteStatsPostCount]: "Posts",
 	[Key.siteStatsCategoryCount]: "Categories",
-	[Key.siteStatsTagCount]: "Tags",
+	[Key.siteStatsTagCount]: "Post Tags",
 	[Key.siteStatsTotalWords]: "Total Words",
 	[Key.siteStatsRunningDays]: "Running Days",
 	[Key.siteStatsLastUpdate]: "Last Activity",

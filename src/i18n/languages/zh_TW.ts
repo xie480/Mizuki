@@ -14,7 +14,7 @@ export const zh_TW: Translation = {
 	[Key.navAbout]: "關於",
 	[Key.navOthers]: "其他",
 
-	[Key.tags]: "標籤",
+	[Key.tags]: "文章標籤",
 	[Key.categories]: "分類",
 	[Key.recentPosts]: "最新文章",
 	[Key.postList]: "文章列表",
@@ -58,7 +58,7 @@ export const zh_TW: Translation = {
 	[Key.publishedAt]: "發布於",
 	[Key.license]: "許可協議",
 	[Key.anime]: "追番",
-	[Key.diary]: "日記",
+	[Key.diary]: "動態",
 
 	// 設備頁面
 	[Key.devices]: "我的設備",
@@ -87,10 +87,10 @@ export const zh_TW: Translation = {
 
 	// 短文頁面
 	[Key.diarySubtitle]: "隨時隨地，分享生活",
-	[Key.diaryNoResults]: "沒有匹配的日記",
-	[Key.diaryCount]: "條日記",
+	[Key.diaryNoResults]: "沒有匹配的動態",
+	[Key.diaryCount]: "條動態",
 
-	[Key.diaryTips]: "只展示最近30條日記",
+	[Key.diaryTips]: "只展示最近30條動態",
 	[Key.diaryMinutesAgo]: "分鐘前",
 	[Key.diaryHoursAgo]: "小時前",
 	[Key.diaryDaysAgo]: "天前",
@@ -241,6 +241,7 @@ export const zh_TW: Translation = {
 	[Key.timelineLocation]: "地點",
 	[Key.timelineDescription]: "詳細描述",
 	[Key.timelineMonths]: "個月",
+	[Key.timelineDays]: "天",
 	[Key.timelineYears]: "年",
 	[Key.timelineTotal]: "總計",
 	[Key.timelineProjects]: "專案數",
