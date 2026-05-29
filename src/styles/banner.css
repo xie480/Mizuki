@@ -445,8 +445,35 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   无 Banner 布局
-   ========================================================================== */
+    背景空洞修复：确保主内容容器有兜底背景色
+    防止 Banner 与主内容之间的 translateY 空洞透出底层背景
+    ========================================================================== */
+.absolute.w-full.z-30::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--page-bg, #ffffff);
+  z-index: -1;
+}
+
+/* 仅在桌面端首页，主网格有 translateY 偏移，背景也需要相应偏移以避免遮挡波浪动画 */
+@media (min-width: 1280px) {
+  body.lg\:is-home .absolute.w-full.z-30::before {
+    top: var(--banner-height-extend, 30vh);
+  }
+}
+
+/* 全屏壁纸模式下，隐藏兜底背景以显示壁纸 */
+body.wallpaper-transparent .absolute.w-full.z-30::before {
+  display: none;
+}
+
+/* ==========================================================================
+    无 Banner 布局
+    ========================================================================== */
 .no-banner-layout {
   top: 5.5rem !important;
   min-height: calc(100vh - 5.5rem) !important;

@@ -26,7 +26,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:vue",
 		category: "frontend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#4FC08D",
 	},
 	{
@@ -36,7 +36,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:vitejs",
 		category: "frontend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#646CFF",
 	},
 	{
@@ -46,7 +46,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:pinia",
 		category: "frontend",
 		level: "advanced",
-		experience: { years: 1, months: 8 },
+		experience: { years: 0, months: 8 },
 		color: "#FFD859",
 	},
 	{
@@ -56,7 +56,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:axios",
 		category: "frontend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#5A29E4",
 	},
 	{
@@ -66,7 +66,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:react",
 		category: "frontend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#61DAFB",
 	},
 	{
@@ -76,7 +76,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:electron",
 		category: "frontend",
 		level: "intermediate",
-		experience: { years: 1, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#47848F",
 	},
 
@@ -88,7 +88,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:java",
 		category: "backend",
 		level: "expert",
-		experience: { years: 4, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#ED8B00",
 	},
 	{
@@ -98,7 +98,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:spring-icon",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 3, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#6DB33F",
 	},
 	{
@@ -108,7 +108,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:spring-icon",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 3, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#6DB33F",
 	},
 	{
@@ -118,7 +118,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:spring-icon",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#6DB33F",
 	},
 	{
@@ -128,7 +128,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:spring-icon",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 3, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#6DB33F",
 	},
 	{
@@ -138,7 +138,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:openfeign",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#6DB33F",
 	},
 	{
@@ -148,7 +148,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:cachet",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#4285F4",
 	},
 	{
@@ -158,7 +158,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:alibabacloud",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#00C7B7",
 	},
 	{
@@ -168,7 +168,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:apacherocketmq",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#D77310",
 	},
 	{
@@ -178,7 +178,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:kafka",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#231F20",
 	},
 	{
@@ -188,7 +188,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:go",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#00ADD8",
 	},
 	{
@@ -198,7 +198,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:python",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#3776AB",
 	},
 	{
@@ -208,7 +208,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:fastapi",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 1, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#009688",
 	},
 	{
@@ -218,7 +218,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:gin",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 1, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#00ADD8",
 	},
 	{
@@ -228,7 +228,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:netty",
 		category: "backend",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#339933",
 	},
 	{
@@ -238,7 +238,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:grpc",
 		category: "backend",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#2CA01C",
 	},
 	{
@@ -248,7 +248,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:alibaba",
 		category: "backend",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#00B2FF",
 	},
 	{
@@ -258,7 +258,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:alibaba",
 		category: "backend",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#F7B500",
 	},
 	{
@@ -268,7 +268,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:apache",
 		category: "backend",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#FF4D4F",
 	},
 	{
@@ -278,7 +278,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:huggingface",
 		category: "backend",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#FF9900",
 	},
 	{
@@ -288,7 +288,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:langchain",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#1C3C3C",
 	},
 	{
@@ -298,7 +298,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:langchain",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#1C3C3C",
 	},
 	{
@@ -308,7 +308,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:nodejs-icon",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#339933",
 	},
 	{
@@ -318,7 +318,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:apache",
 		category: "backend",
 		level: "advanced",
-		experience: { years: 1, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#FF4D4F",
 	},
 
@@ -330,7 +330,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:mysql-icon",
 		category: "database",
 		level: "expert",
-		experience: { years: 4, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#4479A1",
 	},
 	{
@@ -340,7 +340,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:redis",
 		category: "database",
 		level: "expert",
-		experience: { years: 4, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#DC382D",
 	},
 	{
@@ -350,7 +350,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:postgresql",
 		category: "database",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#336791",
 	},
 	{
@@ -360,7 +360,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:elasticsearch",
 		category: "database",
 		level: "advanced",
-		experience: { years: 1, months: 6 },
+		experience: { years: 0, months: 0 },
 		color: "#005571",
 	},
 
@@ -372,7 +372,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:docker-icon",
 		category: "tools",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#2496ED",
 	},
 	{
@@ -382,7 +382,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:nginx",
 		category: "tools",
 		level: "advanced",
-		experience: { years: 2, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#009639",
 	},
 	{
@@ -392,7 +392,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:apachezookeeper",
 		category: "tools",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#2F8F9D",
 	},
 	{
@@ -402,8 +402,8 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:apache",
 		category: "tools",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
-		color: "#D77310",
+		experience: { years: 0, months: 0 },
+		color: "#D77300",
 	},
 	{
 		id: "seata",
@@ -412,7 +412,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:alibaba",
 		category: "tools",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#FF6A00",
 	},
 	{
@@ -422,7 +422,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:minio",
 		category: "tools",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#C72E49",
 	},
 	{
@@ -432,7 +432,7 @@ export const skillsData: Skill[] = [
 		icon: "logos:kotlin-icon",
 		category: "tools",
 		level: "intermediate",
-		experience: { years: 1, months: 0 },
+		experience: { years: 0, months: 0 },
 		color: "#7F52FF",
 	},
 ];

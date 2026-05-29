@@ -84,7 +84,7 @@ const renderGroups = [
 ];
 ---
 
-<div 
+<div
 	class:list={[
 		"fixed inset-0 w-full h-full overflow-hidden pointer-events-none",
 		className
@@ -94,9 +94,11 @@ const renderGroups = [
 >
 	<script is:inline>
 	// 立即执行脚本：防止闪烁
+	// 双重校验：localStorage 必须明确为 'fullscreen' 才显示
+	// 防止：用户曾切换到 fullscreen 后 localStorage 残留，但配置已改回 banner
 	(function() {
-		const mode = localStorage.getItem('wallpaperMode') || 'banner';
-		if (mode !== 'fullscreen') {
+		const savedMode = localStorage.getItem('wallpaperMode');
+		if (savedMode !== 'fullscreen') {
 			document.currentScript.parentElement.style.display = 'none';
 		}
 	})();
