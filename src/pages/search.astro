@@ -1,0 +1,35 @@
+---
+/**
+ * 搜索结果页
+ * 接收 ?q=keyword 查询参数，展示多维度搜索结果
+ */
+import SearchApp from "@components/features/search/SearchApp.svelte";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { siteConfig } from "../config";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+
+export const prerender = true;
+---
+
+<MainGridLayout
+    title={i18n(I18nKey.search)}
+    description={i18n(I18nKey.search)}
+>
+    <div class="search-page-wrapper">
+        <div class="search-section">
+            <SearchApp client:only="svelte" />
+        </div>
+    </div>
+</MainGridLayout>
+
+<style>
+    .search-page-wrapper {
+        min-height: 60vh;
+        padding: 1rem 0;
+    }
+    .search-section {
+        margin: 0 auto;
+        max-width: 48rem;
+    }
+</style>

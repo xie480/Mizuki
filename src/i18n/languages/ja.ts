@@ -366,4 +366,21 @@ export const ja: Translation = {
 	[Key.randomPosts]: "ランダム記事",
 	[Key.smartRecommend]: "スマート",
 	[Key.randomRecommend]: "ランダム",
+
+	// 多次元検索
+	[Key.searchResults]: "検索結果",
+	[Key.searchAll]: "すべて",
+	[Key.searchPosts]: "記事",
+	[Key.searchProjects]: "プロジェクト",
+	[Key.searchMoments]: "ダイナミクス",
+	[Key.searchNoResults]: "結果が見つかりませんでした",
+	[Key.searchNoResultsHint]:
+		"{keyword} に一致する結果が見つかりませんでした。キーワードの確認、より一般的なキーワードの使用、または別のカテゴリをお試しください。",
+	[Key.searchViewAll]: "すべての {count} 件の結果を表示",
+	[Key.searchSortRelevance]: "関連度順",
+	[Key.searchSortDateDesc]: "新しい順",
+	[Key.searchSortDateAsc]: "古い順",
+	[Key.searchLoading]: "検索中...",
+	[Key.searchError]: "検索中にエラーが発生しました。後でもう一度お試しください。",
+	[Key.searchSuggestion]: "他のキーワードをお試しください",
 };

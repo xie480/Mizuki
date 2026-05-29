@@ -88,30 +88,32 @@
 
 <button
 	aria-label="Light/Dark Mode"
-	class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 theme-switch-btn z-50"
+	class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 flex items-center justify-center relative theme-switch-btn z-50"
 	id="scheme-switch"
 	onclick={toggleScheme}
 	data-mode={mode}
 >
-	<div
-		class="absolute transition-all duration-300 ease-in-out"
-		class:opacity-0={mode !== LIGHT_MODE}
-		class:rotate-180={mode !== LIGHT_MODE}
-	>
-		<Icon
-			icon="material-symbols:wb-sunny-outline-rounded"
-			class="text-[1.25rem]"
-		></Icon>
-	</div>
-	<div
-		class="absolute transition-all duration-300 ease-in-out"
-		class:opacity-0={mode !== DARK_MODE}
-		class:rotate-180={mode !== DARK_MODE}
-	>
-		<Icon
-			icon="material-symbols:dark-mode-outline-rounded"
-			class="text-[1.25rem]"
-		></Icon>
+	<div class="w-5 h-5 flex items-center justify-center relative">
+		<div
+			class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out"
+			class:opacity-0={mode !== LIGHT_MODE}
+			class:rotate-180={mode !== LIGHT_MODE}
+		>
+			<Icon
+				icon="material-symbols:wb-sunny-outline-rounded"
+				class="text-[1.25rem]"
+			></Icon>
+		</div>
+		<div
+			class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out"
+			class:opacity-0={mode !== DARK_MODE}
+			class:rotate-180={mode !== DARK_MODE}
+		>
+			<Icon
+				icon="material-symbols:dark-mode-outline-rounded"
+				class="text-[1.25rem]"
+			></Icon>
+		</div>
 	</div>
 </button>
 

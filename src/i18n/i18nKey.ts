@@ -340,6 +340,22 @@ enum I18nKey {
 	randomPosts = "randomPosts",
 	smartRecommend = "smartRecommend",
 	randomRecommend = "randomRecommend",
+
+	// 多维度搜索
+	searchResults = "searchResults",
+	searchAll = "searchAll",
+	searchPosts = "searchPosts",
+	searchProjects = "searchProjects",
+	searchMoments = "searchMoments",
+	searchNoResults = "searchNoResults",
+	searchNoResultsHint = "searchNoResultsHint",
+	searchViewAll = "searchViewAll",
+	searchSortRelevance = "searchSortRelevance",
+	searchSortDateDesc = "searchSortDateDesc",
+	searchSortDateAsc = "searchSortDateAsc",
+	searchLoading = "searchLoading",
+	searchError = "searchError",
+	searchSuggestion = "searchSuggestion",
 }
 
 export default I18nKey;

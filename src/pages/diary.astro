@@ -97,7 +97,12 @@ const subtitle = i18n(I18nKey.diarySubtitle);
 					)
 				}
 
-				<div id="diary-list" class="space-y-4">
+				<div
+					id="diary-list"
+					class="space-y-4"
+					data-pagefind-body
+					data-pagefind-filter="type:moment"
+				>
 					{
 						moments.map((moment, index) => (
 							<MomentCard

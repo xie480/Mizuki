@@ -1,3 +1,4 @@
+
 <script lang="ts">
 	import I18nKey from "@i18n/i18nKey";
 	import { i18n } from "@i18n/translation";
@@ -6,148 +7,284 @@
 	import { url } from "@utils/url-utils";
 	import { onDestroy, onMount } from "svelte";
 
-	import type { SearchResult } from "@/global";
+	import { fetchSearchResults, buildSearchUrl } from "@/utils/search-api";
+	import { searchStore } from "@/stores/searchStore";
+	import type { GroupedResults, SearchSummary, FilterTab, SortOrder } from "@/types/search";
+	import { SEARCH_CONSTANTS } from "@/types/search";
+	import SearchDropdown from "../../features/search/SearchDropdown.svelte";
 
+	// ---------- 状态 ----------
 	let keywordDesktop = $state("");
 	let keywordMobile = $state("");
-	let result: SearchResult[] = $state([]);
-	let pagefindLoaded = false;
+
+	// 搜索结果
+	let rawResults: GroupedResults = $state({ posts: [], projects: [], moments: [] });
+	let searchSummary: SearchSummary = $state({ total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 });
+	let isSearching = $state(false);
+	let isDropdownOpen = $state(false);
+
+	// Pagefind 初始化
 	let initialized = $state(false);
+	let pagefindLoaded = $state(false);
+
+	// UI 状态
 	let isDesktopSearchExpanded = $state(false);
-	let debounceTimer: NodeJS.Timeout;
 	let windowJustFocused = false;
+	let currentKeywordForDropdown = $state("");
+
+	// 防抖和竞态控制
+	let debounceTimer: NodeJS.Timeout;
+	let abortController: AbortController | null = null;
 	let focusTimer: NodeJS.Timeout;
 	let blurTimer: NodeJS.Timeout;
 
-	const fakeResult: SearchResult[] = [
-		{
-			url: url("/"),
-			meta: {
+	// 开发环境模拟数据
+	const fakeResults: GroupedResults = {
+		posts: [
+			{
+				id: "fake-1",
 				title: "This Is a Fake Search Result",
+				url: url("/"),
+				excerpt: "Because the search cannot work in the <mark>dev</mark> environment.",
+				publishDate: "",
+				score: 0.95,
+				dimension: "posts",
 			},
-			excerpt:
-				"Because the search cannot work in the <mark>dev</mark> environment.",
-		},
-		{
-			url: url("/"),
-			meta: {
+			{
+				id: "fake-2",
 				title: "If You Want to Test the Search",
+				url: url("/"),
+				excerpt: "Try running <mark>npm build && npm preview</mark> instead.",
+				publishDate: "",
+				score: 0.85,
+				dimension: "posts",
 			},
-			excerpt:
-				"Try running <mark>npm build && npm preview</mark> instead.",
-		},
-	];
+		],
+		projects: [],
+		moments: [],
+	};
+	const fakeSummary: SearchSummary = { total: 2, postsCount: 2, projectsCount: 0, momentsCount: 0 };
 
+	// ---------- 方法 ----------
+
+	/** 同步 Store 状态 */
+	const syncToStore = () => {
+		searchStore.setKeyword(keywordDesktop || keywordMobile);
+		searchStore.setSearching(isSearching);
+		searchStore.setDropdownOpen(isDropdownOpen);
+		searchStore.setDesktopExpanded(isDesktopSearchExpanded);
+		searchStore.setResults({
+			code: 200,
+			message: "success",
+			data: { keyword: keywordDesktop || keywordMobile, summary: searchSummary, results: rawResults },
+		});
+	};
+
+	/** 切换移动端搜索面板 */
 	const togglePanel = () => {
 		const panel = document.getElementById("search-panel");
 		panel?.classList.toggle("float-panel-closed");
-		if (
-			!panel?.classList.contains("float-panel-closed") &&
-			typeof window.loadPagefind === "function"
-		) {
+		if (!panel?.classList.contains("float-panel-closed") && typeof window.loadPagefind === "function") {
 			window.loadPagefind();
 		}
 	};
 
+	/** 切换桌面端搜索框展开 */
 	const toggleDesktopSearch = () => {
-		// 如果窗口刚获得焦点，不自动展开搜索框
-		if (windowJustFocused) {
-			return;
-		}
+		if (windowJustFocused) return;
 		isDesktopSearchExpanded = !isDesktopSearchExpanded;
 		if (isDesktopSearchExpanded) {
 			if (typeof window.loadPagefind === "function") {
 				window.loadPagefind();
 			}
 			setTimeout(() => {
-				const input = document.getElementById(
-					"search-input-desktop",
-				) as HTMLInputElement;
+				const input = document.getElementById("search-input-desktop") as HTMLInputElement;
 				input?.focus();
 			}, 0);
 		}
 	};
 
+	/** 桌面端移出搜索栏时的处理（不关闭下拉面板，只延迟折叠搜索框） */
 	const collapseDesktopSearch = () => {
 		if (!keywordDesktop) {
 			isDesktopSearchExpanded = false;
+			// 不可折叠下拉面板，要等搜索结果返回后才确定
 		}
 	};
 
+	/** 失焦处理（延迟以允许点击结果），只关闭展开态不下拉面板 */
 	const handleBlur = () => {
-		// 延迟处理以允许搜索结果的点击事件先于折叠逻辑执行
 		blurTimer = setTimeout(() => {
+			// 折叠搜索框但保留 isDropdownOpen，让 performSearch 的最终结果决定
 			isDesktopSearchExpanded = false;
-			// 仅隐藏面板并折叠，保留搜索关键词和结果以便下次展开时查看
-			setPanelVisibility(false, true);
-		}, 200);
+		}, SEARCH_CONSTANTS.BLUR_DELAY);
 	};
 
-	const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
-		const panel = document.getElementById("search-panel");
-		if (!panel || !isDesktop) {
+	/** 核心搜索逻辑（防抖调用） */
+	const performSearch = async (keyword: string) => {
+		const trimmed = keyword.trim();
+		if (!trimmed) {
+			rawResults = { posts: [], projects: [], moments: [] };
+			searchSummary = { total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 };
+			isSearching = false;
+			isDropdownOpen = false;
+			currentKeywordForDropdown = "";
+			syncToStore();
 			return;
 		}
-		if (show) {
-			panel.classList.remove("float-panel-closed");
-		} else {
-			panel.classList.add("float-panel-closed");
+
+		if (!initialized) {
+			isSearching = false;
+			syncToStore();
+			return;
+		}
+
+		// 取消上一次未完成的请求（竞态条件处理）
+		if (abortController) {
+			abortController.abort();
+		}
+		abortController = new AbortController();
+
+		isSearching = true;
+		isDropdownOpen = true;
+		currentKeywordForDropdown = trimmed;
+		syncToStore();
+
+		try {
+			let response;
+
+			// 1. 尝试使用 Pagefind 真实搜索
+			if (pagefindLoaded && window.pagefind) {
+				response = await fetchSearchResults(trimmed, abortController.signal);
+			} else if (typeof window.loadPagefind === "function") {
+				await window.loadPagefind();
+				pagefindLoaded =
+					!!window.pagefind && typeof window.pagefind.search === "function";
+				if (pagefindLoaded) {
+					response = await fetchSearchResults(trimmed, abortController.signal);
+				} else {
+					response = null;
+				}
+			} else {
+				response = null;
+			}
+
+			// 2. 如果 Pagefind 不可用（DEV 环境），使用模拟数据便于开发测试
+			if (!response) {
+				if (import.meta.env.DEV) {
+					await new Promise((r) => setTimeout(r, 300));
+					response = {
+						code: 200,
+						message: "success",
+						data: { keyword: trimmed, summary: fakeSummary, results: fakeResults },
+					};
+				} else {
+					response = {
+						code: 200,
+						message: "pagefind_unavailable",
+						data: {
+							keyword: trimmed,
+							summary: { total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 },
+							results: { posts: [], projects: [], moments: [] },
+						},
+					};
+				}
+			}
+
+			// 如果 abort 了，丢弃结果
+			if (abortController.signal.aborted) return;
+
+			rawResults = response.data.results;
+			searchSummary = response.data.summary;
+			isSearching = false;
+			isDropdownOpen = response.data.summary.total > 0;
+			syncToStore();
+		} catch (error) {
+			if ((error as DOMException)?.name === "AbortError") return;
+			console.error("Search error:", error);
+			rawResults = { posts: [], projects: [], moments: [] };
+			searchSummary = { total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 };
+			isSearching = false;
+			isDropdownOpen = true; // 保持打开以显示错误
+			syncToStore();
 		}
 	};
 
-	const closeSearchPanel = (): void => {
+	/** 处理输入变化（防抖） */
+	const handleInput = (_e: Event, isDesktop: boolean) => {
+		const keyword = isDesktop ? keywordDesktop : keywordMobile;
+		clearTimeout(debounceTimer);
+		if (!keyword.trim()) {
+			rawResults = { posts: [], projects: [], moments: [] };
+			searchSummary = { total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 };
+			isSearching = false;
+			isDropdownOpen = false;
+			currentKeywordForDropdown = "";
+			syncToStore();
+			return;
+		}
+		debounceTimer = setTimeout(() => {
+			performSearch(keyword);
+		}, SEARCH_CONSTANTS.DEBOUNCE_DELAY);
+	};
+
+	/** 处理回车键：跳转到搜索结果页 */
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.key === "Enter") {
+			const keyword = keywordDesktop || keywordMobile;
+			if (keyword.trim()) {
+				e.preventDefault();
+				isDropdownOpen = false;
+				currentKeywordForDropdown = "";
+				const searchUrl = buildSearchUrl(keyword);
+				navigateToPage(searchUrl);
+			}
+		}
+		// Escape 键关闭面板
+		if (e.key === "Escape") {
+			isDropdownOpen = false;
+			isDesktopSearchExpanded = false;
+		}
+	};
+
+	/** 处理结果点击 */
+	const handleResultClick = (url: string) => {
+		isDropdownOpen = false;
+		isDesktopSearchExpanded = false;
+		currentKeywordForDropdown = "";
+		navigateToPage(url);
+	};
+
+	/** 处理"查看全部" */
+	const handleViewAll = () => {
+		const keyword = keywordDesktop || keywordMobile;
+		if (keyword.trim()) {
+			isDropdownOpen = false;
+			currentKeywordForDropdown = "";
+			const searchUrl = buildSearchUrl(keyword);
+			navigateToPage(searchUrl);
+		}
+	};
+
+	/** 关闭搜索面板 */
+	const closeSearchPanel = () => {
+		isDropdownOpen = false;
+		isDesktopSearchExpanded = false;
+		keywordDesktop = "";
+		keywordMobile = "";
+		rawResults = { posts: [], projects: [], moments: [] };
+		searchSummary = { total: 0, postsCount: 0, projectsCount: 0, momentsCount: 0 };
+		isSearching = false;
+		currentKeywordForDropdown = "";
+		syncToStore();
+		// 关闭浮动面板
 		const panel = document.getElementById("search-panel");
 		if (panel) {
 			panel.classList.add("float-panel-closed");
 		}
-		// 清空搜索关键词和结果
-		keywordDesktop = "";
-		keywordMobile = "";
-		result = [];
 	};
 
-	const handleResultClick = (event: Event, url: string): void => {
-		event.preventDefault();
-		closeSearchPanel();
-		navigateToPage(url);
-	};
-
-	const search = async (
-		keyword: string,
-		isDesktop: boolean,
-	): Promise<void> => {
-		if (!keyword) {
-			setPanelVisibility(false, isDesktop);
-			result = [];
-			return;
-		}
-		if (!initialized) {
-			return;
-		}
-		try {
-			let searchResults: SearchResult[] = [];
-			if (import.meta.env.PROD && pagefindLoaded && window.pagefind) {
-				const response = await window.pagefind.search(keyword);
-				searchResults = await Promise.all(
-					response.results.map((item) => item.data()),
-				);
-			} else if (import.meta.env.DEV) {
-				searchResults = fakeResult;
-			} else {
-				searchResults = [];
-				console.error(
-					"Pagefind is not available in production environment.",
-				);
-			}
-			result = searchResults;
-			setPanelVisibility(result.length > 0, isDesktop);
-		} catch (error) {
-			console.error("Search error:", error);
-			result = [];
-			setPanelVisibility(false, isDesktop);
-		}
-	};
-
+	// ---------- 生命周期 ----------
 	onMount(() => {
 		const initializeSearch = () => {
 			initialized = true;
@@ -155,67 +292,51 @@
 				typeof window !== "undefined" &&
 				!!window.pagefind &&
 				typeof window.pagefind.search === "function";
-			console.log("Pagefind status on init:", pagefindLoaded);
+			searchStore.setInitialized(true, pagefindLoaded);
 		};
+
 		if (import.meta.env.DEV) {
-			console.log(
-				"Pagefind is not available in development mode. Using mock data.",
-			);
 			initializeSearch();
 		} else {
 			document.addEventListener("pagefindready", () => {
-				console.log("Pagefind ready event received.");
 				initializeSearch();
 			});
 			document.addEventListener("pagefindloaderror", () => {
-				console.warn(
-					"Pagefind load error event received. Search functionality will be limited.",
-				);
-				initializeSearch(); // Initialize with pagefindLoaded as false
+				console.warn("Pagefind load error. Search will be limited.");
+				initializeSearch();
 			});
-			// Fallback in case events are not caught or pagefind is already loaded by the time this script runs
 			setTimeout(() => {
-				if (!initialized) {
-					console.log("Fallback: Initializing search after timeout.");
-					initializeSearch();
-				}
-			}, 2000); // Adjust timeout as needed
+				if (!initialized) initializeSearch();
+			}, 2000);
 		}
 
-		// 监听窗口焦点事件，防止切换窗口时自动展开搜索框
+		// 监听窗口焦点
 		const handleFocus = () => {
 			windowJustFocused = true;
 			clearTimeout(focusTimer);
 			focusTimer = setTimeout(() => {
 				windowJustFocused = false;
-			}, 500); // 500ms 后才允许 mouseenter 触发展开
+			}, SEARCH_CONSTANTS.FOCUS_RECOVERY_WINDOW);
 		};
-
 		window.addEventListener("focus", handleFocus);
+
+		// 点击外部关闭下拉面板
+		const handleClickOutside = (e: MouseEvent) => {
+			const container = document.getElementById("search-container");
+			if (container && !container.contains(e.target as Node)) {
+				isDropdownOpen = false;
+			}
+		};
+		document.addEventListener("click", handleClickOutside);
 
 		return () => {
 			window.removeEventListener("focus", handleFocus);
+			document.removeEventListener("click", handleClickOutside);
 		};
 	});
 
 	$effect(() => {
-		if (initialized) {
-			const keyword = keywordDesktop || keywordMobile;
-			const isDesktop = !!keywordDesktop || isDesktopSearchExpanded;
-
-			clearTimeout(debounceTimer);
-			if (keyword) {
-				debounceTimer = setTimeout(() => {
-					search(keyword, isDesktop);
-				}, 300);
-			} else {
-				result = [];
-				setPanelVisibility(false, isDesktop);
-			}
-		}
-	});
-
-	$effect(() => {
+		// 同步 navbar 状态
 		if (typeof document !== "undefined") {
 			const navbar = document.getElementById("navbar");
 			if (isDesktopSearchExpanded) {
@@ -233,31 +354,29 @@
 		}
 		clearTimeout(debounceTimer);
 		clearTimeout(focusTimer);
+		clearTimeout(blurTimer);
+		if (abortController) abortController.abort();
 	});
 </script>
 
-<!-- search bar for desktop view (collapsed by default) -->
-<div class="hidden lg:block relative w-11 h-11 shrink-0">
+<!-- 桌面端搜索栏（默认折叠） -->
+<div class="hidden lg:block relative h-11 shrink-0 {isDesktopSearchExpanded ? 'w-72' : 'w-11'}" id="desktop-search-wrapper">
 	<div
 		id="search-bar"
-		class="flex transition-all items-center h-11 rounded-lg absolute right-0 top-0 shrink-0
+		class="flex transition-all items-center h-11 rounded-lg absolute left-0 top-0 shrink-0
             {isDesktopSearchExpanded
 			? 'bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10'
 			: 'btn-plain active:scale-90'}
-            {isDesktopSearchExpanded ? 'w-48' : 'w-11'}"
-		role="button"
+            {isDesktopSearchExpanded ? 'w-72' : 'w-11'}"
+		role="search"
 		tabindex="0"
-		aria-label="Search"
+		aria-label={i18n(I18nKey.search)}
 		onmouseenter={() => {
-			if (!isDesktopSearchExpanded) {
-				toggleDesktopSearch();
-			}
+			if (!isDesktopSearchExpanded) toggleDesktopSearch();
 		}}
 		onmouseleave={collapseDesktopSearch}
 		onclick={() => {
-			const input = document.getElementById(
-				"search-input-desktop",
-			) as HTMLInputElement;
+			const input = document.getElementById("search-input-desktop") as HTMLInputElement;
 			input?.focus();
 		}}
 	>
@@ -271,87 +390,121 @@
 		></Icon>
 		<input
 			id="search-input-desktop"
+			type="search"
 			placeholder={i18n(I18nKey.search)}
 			bind:value={keywordDesktop}
+			oninput={(e) => handleInput(e, true)}
+			onkeydown={handleKeyDown}
 			onfocus={() => {
 				clearTimeout(blurTimer);
-				if (!isDesktopSearchExpanded) {
-					toggleDesktopSearch();
+				if (!isDesktopSearchExpanded) toggleDesktopSearch();
+				if (keywordDesktop.trim()) {
+					performSearch(keywordDesktop);
 				}
-				search(keywordDesktop, true);
 			}}
 			onblur={handleBlur}
+			autocomplete="off"
 			class="transition-all pl-10 text-sm bg-transparent outline-0
-                h-full {isDesktopSearchExpanded
-				? 'w-36'
-				: 'w-0'} text-black/50 dark:text-white/50"
+                h-full {isDesktopSearchExpanded ? 'w-60' : 'w-0'} text-black/50 dark:text-white/50"
 		/>
 	</div>
+
+	<!-- 桌面端下拉面板：固定宽度与搜索框一致，使用 position absolute 对齐 -->
+	{#if isDropdownOpen && isDesktopSearchExpanded}
+		<div class="search-dropdown-anchor">
+			<SearchDropdown
+				keyword={currentKeywordForDropdown}
+				isSearching={isSearching}
+				isOpen={true}
+				results={rawResults}
+				summary={searchSummary}
+				onItemClick={handleResultClick}
+				onViewAll={handleViewAll}
+				onClose={() => { isDropdownOpen = false; }}
+			/>
+		</div>
+	{/if}
 </div>
 
-<!-- toggle btn for phone/tablet view -->
+<!-- 移动端切换按钮 -->
 <button
 	onclick={togglePanel}
-	aria-label="Search Panel"
+	aria-label={i18n(I18nKey.search)}
 	id="search-switch"
 	class="btn-plain scale-animation lg:!hidden rounded-lg w-11 h-11 active:scale-90"
 >
 	<Icon icon="material-symbols:search" class="text-[1.25rem]"></Icon>
 </button>
 
-<!-- search panel -->
+<!-- 移动端搜索面板（浮动面板） -->
 <div
 	id="search-panel"
 	class="float-panel float-panel-closed absolute md:w-[30rem] top-20 left-4 md:left-[unset] right-4 z-50 search-panel shadow-2xl rounded-2xl p-2"
 >
-	<!-- search bar inside panel for phone/tablet -->
+	<!-- 移动端搜索输入框 -->
 	<div
 		id="search-bar-inside"
 		class="flex relative lg:hidden transition-all items-center h-11 rounded-xl
       bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06]
-      dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
-  "
+      dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10"
 	>
 		<Icon
 			icon="material-symbols:search"
 			class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"
 		></Icon>
 		<input
+			id="search-input-mobile"
+			type="search"
 			placeholder={i18n(I18nKey.search)}
 			bind:value={keywordMobile}
+			oninput={(e) => handleInput(e, false)}
+			onkeydown={handleKeyDown}
+			autocomplete="off"
 			class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
                focus:w-60 text-black/50 dark:text-white/50"
 		/>
 	</div>
-	<!-- search results -->
-	{#each result as item}
-		<a
-			href={item.url}
-			onclick={(e) => handleResultClick(e, item.url)}
-			class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
-       rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]"
-		>
-			<div
-				class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]"
-			>
-				{item.meta.title}<Icon
-					icon="fa7-solid:chevron-right"
-					class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"
-				></Icon>
-			</div>
-			<div class="transition text-sm text-50">
-				{@html item.excerpt}
-			</div>
-		</a>
-	{/each}
+
+	<!-- 移动端下拉结果 -->
+	<SearchDropdown
+		keyword={currentKeywordForDropdown}
+		isSearching={isSearching}
+		isOpen={!!keywordMobile.trim() && isDropdownOpen}
+		results={rawResults}
+		summary={searchSummary}
+		onItemClick={(url) => {
+			closeSearchPanel();
+			navigateToPage(url);
+		}}
+		onViewAll={() => {
+			closeSearchPanel();
+			handleViewAll();
+		}}
+		onClose={closeSearchPanel}
+	/>
 </div>
 
 <style>
 	input:focus {
 		outline: 0;
 	}
+	input[type="search"]::-webkit-search-decoration,
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-results-button,
+	input[type="search"]::-webkit-search-results-decoration {
+		-webkit-appearance: none;
+	}
 	:global(.search-panel) {
 		max-height: calc(100vh - 100px);
 		overflow-y: auto;
+	}
+	/* 下拉面板锚点容器：与搜索容器同宽 */
+	.search-dropdown-anchor {
+		position: absolute;
+		left: 0;
+		top: calc(100% + 0.5rem);
+		width: 100%;
+		min-width: 280px;
+		z-index: 100;
 	}
 </style>

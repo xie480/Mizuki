@@ -352,4 +352,21 @@ export const zh_TW: Translation = {
 	[Key.randomPosts]: "隨機文章",
 	[Key.smartRecommend]: "智能推薦",
 	[Key.randomRecommend]: "隨機推薦",
+
+	// 多維度搜尋
+	[Key.searchResults]: "搜尋結果",
+	[Key.searchAll]: "全部",
+	[Key.searchPosts]: "文章",
+	[Key.searchProjects]: "專案",
+	[Key.searchMoments]: "動態",
+	[Key.searchNoResults]: "未找到相關結果",
+	[Key.searchNoResultsHint]:
+		"未搜尋到與 {keyword} 匹配的內容。建議嘗試：檢查關鍵字拼寫、使用更通用的關鍵字、或嘗試其他分類篩選。",
+	[Key.searchViewAll]: "查看全部 {count} 條結果",
+	[Key.searchSortRelevance]: "相關度最高",
+	[Key.searchSortDateDesc]: "最新發布",
+	[Key.searchSortDateAsc]: "最早發布",
+	[Key.searchLoading]: "搜尋中...",
+	[Key.searchError]: "搜尋時發生錯誤，請稍後重試",
+	[Key.searchSuggestion]: "試試其他關鍵字",
 };

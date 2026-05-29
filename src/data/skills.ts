@@ -46,7 +46,7 @@ export const skillsData: Skill[] = [
 		icon: "simple-icons:pinia",
 		category: "frontend",
 		level: "advanced",
-		experience: { years: 0, months: 8 },
+		experience: { years: 0, months: 0 },
 		color: "#FFD859",
 	},
 	{

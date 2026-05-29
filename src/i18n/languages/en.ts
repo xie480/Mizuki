@@ -363,4 +363,21 @@ export const en: Translation = {
 	[Key.randomPosts]: "Random Posts",
 	[Key.smartRecommend]: "Smart",
 	[Key.randomRecommend]: "Random",
+
+	// Multi-dimensional Search
+	[Key.searchResults]: "Search Results",
+	[Key.searchAll]: "All",
+	[Key.searchPosts]: "Posts",
+	[Key.searchProjects]: "Projects",
+	[Key.searchMoments]: "Moments",
+	[Key.searchNoResults]: "No results found",
+	[Key.searchNoResultsHint]:
+		"No results found for {keyword}. Try: checking spelling, using more general keywords, or trying a different category.",
+	[Key.searchViewAll]: "View all {count} results",
+	[Key.searchSortRelevance]: "Most Relevant",
+	[Key.searchSortDateDesc]: "Newest First",
+	[Key.searchSortDateAsc]: "Oldest First",
+	[Key.searchLoading]: "Searching...",
+	[Key.searchError]: "An error occurred during search. Please try again later.",
+	[Key.searchSuggestion]: "Try other keywords",
 };

@@ -45,7 +45,7 @@ declare global {
 		swup: Swup | undefined;
 		closeAnnouncement: () => void;
 		pagefind: {
-			search: (query: string) => Promise<{
+			search: (query: string, options?: object) => Promise<{
 				results: {
 					data: () => Promise<SearchResult>;
 				}[];

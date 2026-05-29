@@ -350,4 +350,21 @@ export const zh_CN: Translation = {
 	[Key.randomPosts]: "随机文章",
 	[Key.smartRecommend]: "智能推荐",
 	[Key.randomRecommend]: "随机推荐",
+
+	// 多维度搜索
+	[Key.searchResults]: "搜索结果",
+	[Key.searchAll]: "全部",
+	[Key.searchPosts]: "文章",
+	[Key.searchProjects]: "项目",
+	[Key.searchMoments]: "动态",
+	[Key.searchNoResults]: "未找到相关结果",
+	[Key.searchNoResultsHint]:
+		"未搜索到与 {keyword} 匹配的内容。建议尝试：检查关键词拼写、使用更通用的关键词、或尝试其他分类筛选。",
+	[Key.searchViewAll]: "查看全部 {count} 条结果",
+	[Key.searchSortRelevance]: "相关度最高",
+	[Key.searchSortDateDesc]: "最新发布",
+	[Key.searchSortDateAsc]: "最早发布",
+	[Key.searchLoading]: "搜索中...",
+	[Key.searchError]: "搜索时发生错误，请稍后重试",
+	[Key.searchSuggestion]: "试试其他关键词",
 };
