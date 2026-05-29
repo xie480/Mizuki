@@ -52,7 +52,7 @@ const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : i
 <div id="navbar" class="z-50 onload-animation group" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[className, "!overflow-visible min-w-[min(var(--page-width),100%)] w-full max-w-none h-[4.5rem] mx-auto flex items-center justify-between overflow-hidden px-4 gap-x-1 lg:gap-x-4"]}>
-        <div class="flex shrink-0 justify-start mr-16">
+        <div class="flex shrink-0 justify-start lg:mr-16">
             <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-all duration-300">
                 <div class="flex flex-row items-center text-md">
                     {/* 使用navbarTitle配置或默认配置 */}
@@ -88,7 +88,7 @@ const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : i
                 </div>
             </a>
         </div>
-        <div id="navbar-links-container" class="hidden md:flex items-center justify-center flex-1 space-x-1 transition-opacity duration-300 min-w-0 mr-16">
+        <div id="navbar-links-container" class="hidden md:flex items-center justify-center flex-1 space-x-1 transition-opacity duration-300 min-w-0 lg:mr-16">
             {links.map((l) => {
                 return <DropdownMenu link={l} />;
             })}
