@@ -34,7 +34,7 @@
   font-display: swap;
 }
 
-/* 导入 萝莉体 第二版 字体 */
+/* 导入 萝莉体 第二版字体 */
 @font-face {
   font-family: "萝莉体 第二版";
   src: url("/assets/font/loli.ttf") format("truetype");
@@ -48,7 +48,16 @@ html {
   scroll-behavior: smooth;
   /* 现代浏览器：为滚动条预留稳定空间 */
   scrollbar-gutter: stable;
+  /* 防止移动端水平溢出导致白边 */
+  max-width: 100vw;
+  overflow-x: hidden;
 }
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 
 /* 页面顶部渐变高光效果 */
 .top-gradient-highlight {
@@ -93,7 +102,7 @@ html {
   /* 淡出旧视图 - 使用更平滑的曲线 */
   ::view-transition-old(root) {
     animation-name: theme-fade-out;
-    /* 确保背景色同步切换 */
+    /* 确保背景色同步切换*/
     z-index: 2;
   }
 
@@ -114,7 +123,7 @@ html {
     }
   }
 
-  /* 定义淡入动画 - 从下层淡入 */
+  /* 定义淡入动画 - 从下层淡入*/
   @keyframes theme-fade-in {
     0% {
       opacity: 0;
@@ -124,7 +133,7 @@ html {
     }
   }
 
-  /* 确保边框和分隔线元素在主题切换时有更明确的过渡时长 */
+  /* 确保边框和分隔线元素在主题切换时有更明确的过渡时间*/
   .transition,
   [class*="border"],
   [class*="transition"] {
@@ -133,7 +142,7 @@ html {
     transition-duration: 0.15s;
   }
 
-  /* 主题过渡保护类 - 仅在非 View Transitions 模式下使用 */
+  /* 主题过渡保护 - 仅在 View Transitions 模式下生效*/
   /* 当使用 View Transitions API 时，浏览器会自动处理过渡，不需要禁用 transition */
   .is-theme-transitioning:not(.use-view-transition) *,
   .is-theme-transitioning:not(.use-view-transition) *::before,
@@ -161,11 +170,11 @@ html {
 
   /* 当禁用隐藏代码块功能时（通过JavaScript动态控制） */
   .is-theme-transitioning .expressive-code:not(.hide-during-transition) {
-    /* 保持代码块可见，但禁用过渡效果 */
+    /* 保持代码块可见，但禁用过渡效果*/
     content-visibility: visible !important;
     opacity: 1 !important;
   }
-  /* 禁用复杂选择器元素的过渡 - 仅在非 View Transitions 模式下 */
+  /* 禁用复杂选择器元素的过渡 - 仅在 View Transitions 模式*/
   .is-theme-transitioning:not(.use-view-transition) .float-panel,
   .is-theme-transitioning:not(.use-view-transition) .float-panel *,
   .is-theme-transitioning:not(.use-view-transition) .music-player,
@@ -178,22 +187,22 @@ html {
     animation: none !important;
   }
 
-  /* 强制使用 contain 隔离渲染上下文 - 仅在非 View Transitions 模式下 */
+  /* 强制使用 contain 隔离渲染上下文 - 仅在 View Transitions 模式*/
   .is-theme-transitioning:not(.use-view-transition) .post-card,
   .is-theme-transitioning:not(.use-view-transition) .widget,
   .is-theme-transitioning:not(.use-view-transition) .float-panel {
     contain: layout style paint !important;
   }
 
-  /* 波浪效果精确同步处理 - 仅在非 View Transitions 模式下 */
+  /* 波浪效果精确同步处理 - 仅在 View Transitions 模式*/
   .is-theme-transitioning:not(.use-view-transition) svg use {
-    /* 禁用过渡但保持动画 */
+    /* 禁用过渡但保持动画*/
     transition: none;
-    /* 强制立即继承页面背景色 */
+    /* 强制立即继承页面背景色*/
     fill: currentColor;
   }
 
-  /* 导航栏主题切换保护 - 仅在非 View Transitions 模式下禁用过渡 */
+  /* 导航栏主题切换保护 - 仅在 View Transitions 模式下禁用过渡*/
   .is-theme-transitioning:not(.use-view-transition) #navbar > div,
   .is-theme-transitioning:not(.use-view-transition) #navbar[data-transparent-mode] > div,
   .is-theme-transitioning:not(.use-view-transition) #navbar[data-transparent-mode].scrolled > div,
@@ -220,22 +229,22 @@ html {
     backdrop-filter: none !important;
   }
 
-  /* 波浪容器的颜色传递 */
+  /* 波浪容器的颜色传递*/
   .is-theme-transitioning #header-waves {
     /* 设置当前颜色为页面背景色，供SVG继承 */
     color: var(--page-bg);
-    /* 确保与页面在同一合成层 */
+    /* 确保与页面在同一合成层*/
     isolation: isolate;
     /* 优化渲染性能 */
     contain: layout style paint;
-    /* GPU层合成 */
+    /* GPU层合*/
     transform: translateZ(0);
-    /* 确保没有背景色 */
+    /* 确保没有背景色*/
     background: transparent;
   }
 
   .is-theme-transitioning #header-waves use {
-    /* 保持动画连续性 */
+    /* 保持动画连续*/
     will-change: transform;
     /* GPU优化 */
     transform: translateZ(0);
@@ -248,7 +257,7 @@ html {
     @apply rounded-(--radius-large) overflow-hidden bg-(--card-bg-transparent) backdrop-blur-sm transition-colors duration-150;
   }
 
-  /* 全屏壁纸模式下的半透明效果 - 使用!important确保优先级 */
+  /* 全屏壁纸模式下的半透明效果 - 使用!important确保优先级*/
   .wallpaper-transparent .card-base {
     background: var(--card-bg-transparent) !important;
     backdrop-filter: blur(8px) !important;
@@ -305,7 +314,7 @@ html {
   .card-shadow {
     @apply drop-shadow-[0_2px_4px_rgba(0,0,0,0.005)];
   }
-  /* 主题切换时禁用按钮背景色过渡，确保立即更新 */
+  /* 主题切换时禁用按钮背景色过渡，确保立即更新*/
   .is-theme-transitioning .expand-animation::before {
     transition: transform 75ms ease-out !important;
   }
@@ -458,7 +467,7 @@ html {
     @apply rounded-b-[calc(var(--radius-large)-0.5rem)];
   }
 
-  /* 移动端菜单样式 */
+  /* 移动端菜单样式*/
   .mobile-submenu {
     @apply max-h-0 overflow-hidden transition-all duration-300 ease-in-out;
   }
@@ -471,14 +480,14 @@ html {
     @apply rotate-180;
   }
 
-  /* 响应式隐藏 */
+  /* 响应式隐藏*/
   @media (max-width: 768px) {
     .dropdown-container {
       @apply hidden;
     }
   }
 
-  /* 无障碍支持 */
+  /* 无障碍支持*/
   .dropdown-container:focus-within .dropdown-menu {
     @apply opacity-100 visible pointer-events-auto translate-y-0;
   }
@@ -520,12 +529,12 @@ html {
   color: inherit;
 }
 
-/* 白天模式下选中文本的颜色 */
+/* 白天模式下选中文本的颜色*/
 :root:not(.dark) ::selection {
   color: #000000;
 }
 
-/* 夜间模式下选中文本的颜色 */
+/* 夜间模式下选中文本的颜色*/
 :root.dark ::selection {
   color: #ffffff;
 }
@@ -620,7 +629,7 @@ html {
 
 /* CSS-only移动端优化 - 避免JavaScript闪烁 */
 @media (max-width: 768px) {
-  /* 移动端强制列表模式，避免初始化闪烁 */
+  /* 移动端强制列表模式，避免初始化闪烁*/
   #post-list-container {
     display: flex !important;
     flex-direction: column !important;
@@ -629,7 +638,7 @@ html {
     background: transparent !important;
   }
 
-  /* 移动端网格模式也显示为列表 */
+  /* 移动端网格模式也显示为列*/
   #post-list-container.grid-mode {
     display: flex !important;
     flex-direction: column !important;
@@ -637,13 +646,13 @@ html {
     grid-template-columns: 1fr !important;
   }
 
-  /* 移动端文章卡片间距优化 */
+  /* 移动端文章卡片间距优化*/
   #post-list-container .post-card-item {
     margin-bottom: 0 !important;
   }
 }
 
-/* 桌面端样式 */
+/* 桌面端样式*/
 @media (min-width: 769px) {
   /* 列表模式下的样式 */
   .post-list-container.list-mode {
