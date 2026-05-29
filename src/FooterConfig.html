@@ -1,1 +1,129 @@
-这里是HTML注入示例，你可以在这个文件中添加自定义的HTML内容
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级二次元流光页脚</title>
+    <style>
+        /* 页面基础样式（为了衬托高级感，建议使用暗色或纯净背景） */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #0b0f19; /* 深邃的ACG星空暗色 */
+            font-family: 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4e5668;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        /* ================= 炫酷高级页脚核心样式 ================= */
+        .cool-footer {
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            /* 上边框采用半透明渐变线条，低调奢华 */
+            border-top: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px); /* 朦胧的毛玻璃效果 */
+            overflow: hidden;
+        }
+
+        /* 霓虹流光文字设计 */
+        .footer-slogan {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+            
+            /* 核心：文字渐变流光效果 */
+            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 20%, #88eaec 40%, #ff758c 60%, #ff7eb3 80%, #88eaec 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 4s linear infinite;
+            
+            /* 文字轻微发光，营造二次元霓虹感 */
+            text-shadow: 0 0 15px rgba(255, 117, 140, 0.2);
+        }
+
+        /* 呼吸跳动的樱花/爱心 */
+        .footer-slogan .heart {
+            display: inline-block;
+            margin: 0 4px;
+            /* 这里的爱心也继承流光色，也可以单独用颜色 */
+            -webkit-text-fill-color: initial; 
+            background: none;
+            color: #ff6b81;
+            text-shadow: 0 0 10px #ff6b81;
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+
+        /* 背景装饰：漂浮的樱花瓣 */
+        .cool-footer::before,
+        .cool-footer::after {
+            content: "🌸";
+            position: absolute;
+            font-size: 14px;
+            opacity: 0.3;
+            filter: blur(0.5px);
+        }
+        
+        .cool-footer::before {
+            left: 15%;
+            top: 20%;
+            animation: sakuraFloat 6s infinite ease-in-out;
+        }
+
+        .cool-footer::after {
+            right: 15%;
+            bottom: 20%;
+            animation: sakuraFloat 8s infinite ease-in-out alternate;
+        }
+
+
+        /* ================= 炫酷动画特效 ================= */
+        
+        /* 文字流光滚动动画 */
+        @keyframes textShine {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* 优雅的心脏/樱花脉动 */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px #ff6b81); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 8px #ff6b81); }
+        }
+
+        /* 樱花浪漫下落/浮动轨迹 */
+        @keyframes sakuraFloat {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.2; }
+            50% { transform: translate(15px, -10px) rotate(45deg); opacity: 0.5; }
+            100% { transform: translate(30px, -5px) rotate(90deg); opacity: 0.2; }
+        }
+    </style>
+</head>
+<body>
+
+    <footer class="cool-footer">
+        <div class="footer-slogan">
+            本站由 <span class="heart">❤</span> 与梦想全力驱动中...
+        </div>
+    </footer>
+
+</body>
+</html>
