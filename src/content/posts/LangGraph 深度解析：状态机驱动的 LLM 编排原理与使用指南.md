@@ -3,6 +3,7 @@ title: "LangGraph 深度解析：状态机驱动的 LLM 编排原理与使用指
 published: 2026-06-01
 pinned: true
 description: 文章摘要： LangGraph 是一种基于状态机的框架，旨在解决传统 DAG（有向无环图）模型在构建复杂 LLM Agent 时的局限性。与链式调用不同，LangGraph 通过三个核心组件实现灵活控制：状态（全局数据总线，显式传递和更新）、节点（执行单元，封装计算逻辑）和边（控制流，支持条件分支和循环）。其设计借鉴了 Pregel 图计算模型，允许 Agent 在思考、行动、观察之间循环，并通过显式状态管理支持动态决策。开发者只需定义状态结构、节点函数和路由逻辑，即可构建具备自主决策能力的 Agent 系统。
+tags: [LangGraph]
 category: 业务拆解
 licenseName: "CC BY 4.0"
 author: Yilena
