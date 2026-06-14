@@ -105,6 +105,27 @@ export function formatDuration(
 }
 
 export const timelineData: TimelineItem[] = [
+	
+	{
+		id: "17",
+		title: "MemFlux",
+		description:
+			"高性能 Windows 内存优化工具，支持后台监控与自动优化，灵感来源于 PCL 与 ISLC。",
+		type: "project",
+		startDate: "2026-06-15",
+		achievements: [
+			"再也不怕电脑没内存跑模型了"
+		],
+		icon: "material-symbols:code",
+		color: "#EA580C",
+		links: [
+			{
+				name: "GitHub Repository",
+				url: "https://github.com/xie480/MemGuardian",
+				type: "project",
+			}
+		],
+	},
 	{
 		id: "16",
 		title: "个人小站搭建",
