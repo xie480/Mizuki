@@ -105,7 +105,37 @@ export function formatDuration(
 }
 
 export const timelineData: TimelineItem[] = [
-	
+	{
+		id: "19",
+		title: "约面某Agent小厂",
+		description:
+			"一轮技术面完美过，二轮产品面完美过",
+		type: "education",
+		startDate: "2026-07-30",
+		endDate: "2026-07-30",
+		achievements: [
+			"正式开启第一段实习经历"
+		],
+		location: "中国，广州",
+		icon: "material-symbols:directions-run",
+		color: "#740596",
+	},
+	{
+		id: "18",
+		title: "约面某精品小厂",
+		description:
+			"两轮技术面完美过，三面产品面战败",
+		type: "education",
+		startDate: "2026-07-27",
+		endDate: "2026-07-28",
+		achievements: [
+			"多注意老油条的话术",
+			"不要被旁敲侧击回答错了实习时长……"
+		],
+		location: "中国，广州",
+		icon: "material-symbols:directions-run",
+		color: "#740596",
+	},
 	{
 		id: "17",
 		title: "MemFlux",
